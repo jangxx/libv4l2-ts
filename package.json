@@ -4,7 +4,9 @@
   "description": "Native bindings to the v4l2 interface for webcams",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "node-gyp rebuild",
+    "prepare": "husky install",
+    "build": "npx tsc"
   },
   "keywords": [
     "v4l2",
@@ -16,7 +18,18 @@
   "author": "jangxx <jangxx@pm.me>",
   "license": "MIT",
   "dependencies": {
+    "husky": "^8.0.3",
     "node-addon-api": "^7.0.0",
     "typescript": "^5.3.3"
+  },
+  "os": [
+    "linux"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jangxx/node-v4l2-bindings.git"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
   }
 }
