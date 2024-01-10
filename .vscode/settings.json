@@ -1,0 +1,9 @@
+{
+	"C_Cpp.default.includePath": [
+		"/usr/include/node",
+		"/usr/include/linux",
+		"${workspaceFolder}",
+		"${workspaceFolder}/node_modules/node-addon-api"
+	],
+	"C_Cpp.default.compilerPath": "/usr/bin/g++"
+}

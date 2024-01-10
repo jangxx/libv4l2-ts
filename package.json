@@ -1,12 +1,13 @@
 {
   "name": "v4l2-bindings",
   "version": "1.0.0",
-  "description": "Native bindings to the v4l2 interface for webcams",
+  "description": "Native bindings for libv4l and supporting code",
   "main": "dist/index.js",
   "scripts": {
     "install": "node-gyp rebuild",
-    "prepare": "husky install",
-    "build": "npx tsc"
+    "prepublishOnly": "npx tsc",
+    "dev:run": "node-gyp rebuild && ts-node example.ts",
+    "dev:run-nobuild": "ts-node example.ts"
   },
   "keywords": [
     "v4l2",
@@ -18,9 +19,11 @@
   "author": "jangxx <jangxx@pm.me>",
   "license": "MIT",
   "dependencies": {
-    "husky": "^8.0.3",
     "node-addon-api": "^7.0.0",
-    "typescript": "^5.3.3"
+    "ref-array-di": "^1.2.2",
+    "ref-napi": "^3.0.3",
+    "ref-struct-di": "^1.1.1",
+    "ref-union-di": "^1.0.1"
   },
   "os": [
     "linux"
@@ -30,6 +33,11 @@
     "url": "git+https://github.com/jangxx/node-v4l2-bindings.git"
   },
   "devDependencies": {
-    "ts-node": "^10.9.2"
+    "@types/ref-array-di": "^1.2.8",
+    "@types/ref-napi": "^3.0.12",
+    "@types/ref-struct-di": "^1.1.12",
+    "@types/ref-union-di": "^1.0.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
