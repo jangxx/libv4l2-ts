@@ -5,6 +5,7 @@
 #include "napi.h"
 #include <libv4l2.h>
 #include "include/videodev2.h"
+#include "is_readable_async_worker.h"
 
 Napi::Value wrap_v4l2_fourcc(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
@@ -51,6 +52,11 @@ Napi::Value wrap_v4l2_open(const Napi::CallbackInfo& info) {
     int flags = info[1].As<Napi::Number>().Int32Value();
     int fd = v4l2_open(path.c_str(), flags);
 
+    if (fd == -1) {
+        Napi::Error::New(env, std::strerror(errno)).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
     return Napi::Number::New(env, fd);
 }
 
@@ -70,8 +76,6 @@ Napi::Value wrap_v4l2_ioctl(const Napi::CallbackInfo& info) {
     int fd = info[0].As<Napi::Number>().Int32Value();
     int request = info[1].As<Napi::Number>().Int32Value();
     void* arg = info[2].As<Napi::Buffer<char>>().Data();
-
-    printf("ioctl: %lu\n", (unsigned long)arg);
 
     int result = v4l2_ioctl(fd, request, arg);
 
@@ -162,6 +166,159 @@ Napi::Value wrap_v4l2_close(const Napi::CallbackInfo& info) {
     return env.Null();
 }
 
+Napi::Value wrap_v4l2_dup(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 1) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+
+    int result = v4l2_dup(fd);
+
+    if (result == -1) {
+        Napi::Error::New(env, std::strerror(errno)).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    return Napi::Number::New(env, result);
+}
+
+Napi::Value wrap_v4l2_read(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 3) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber() || !info[1].IsBuffer() || !info[2].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+    Napi::Buffer<char> buffer = info[1].As<Napi::Buffer<char>>();
+    std::size_t length = info[2].As<Napi::Number>().Uint32Value();
+
+    ssize_t result = v4l2_read(fd, buffer.Data(), length);
+
+    if (result == -1) {
+        Napi::Error::New(env, std::strerror(errno)).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    return Napi::Number::New(env, result);
+}
+
+Napi::Value wrap_v4l2_write(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 3) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber() || !info[1].IsBuffer() || !info[2].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+    Napi::Buffer<char> buffer = info[1].As<Napi::Buffer<char>>();
+    std::size_t length = info[2].As<Napi::Number>().Uint32Value();
+
+    ssize_t result = v4l2_write(fd, buffer.Data(), length);
+
+    if (result == -1) {
+        Napi::Error::New(env, std::strerror(errno)).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    return Napi::Number::New(env, result);
+}
+
+Napi::Value wrap_v4l2_set_control(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 3) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber() || !info[1].IsNumber() || !info[2].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+    int cid = info[1].As<Napi::Number>().Int32Value();
+    int value = info[2].As<Napi::Number>().Int32Value();
+
+    int result = v4l2_set_control(fd, cid, value);
+
+    if (result == -1) {
+        Napi::Error::New(env, std::strerror(errno)).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    return Napi::Number::New(env, result);
+}
+
+Napi::Value wrap_v4l2_get_control(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 3) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber() || !info[1].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+    int cid = info[1].As<Napi::Number>().Int32Value();
+
+    int result = v4l2_get_control(fd, cid);
+
+    return Napi::Number::New(env, result);
+}
+
+Napi::Value wrap_v4l2_fd_open(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 3) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber() || !info[1].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+    int v4l2_flags = info[1].As<Napi::Number>().Int32Value();
+
+    int result = v4l2_fd_open(fd, v4l2_flags);
+
+    if (result == -1) {
+        Napi::Error::New(env, std::strerror(errno)).ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    return Napi::Number::New(env, result);
+}
+
 Napi::Value is_readable(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
@@ -191,6 +348,32 @@ Napi::Value is_readable(const Napi::CallbackInfo& info) {
     return Napi::Boolean::New(env, result == 1);
 }
 
+Napi::Value is_readable_async(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+
+    if (info.Length() != 2) {
+        Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    if (!info[0].IsNumber() || !info[1].IsNumber()) {
+        Napi::TypeError::New(env, "Wrong arguments").ThrowAsJavaScriptException();
+        return env.Null();
+    }
+
+    int fd = info[0].As<Napi::Number>().Int32Value();
+    int64_t timeout = info[1].As<Napi::Number>().Int64Value(); // in milliseconds
+
+    timeval tv;
+    tv.tv_sec = timeout / 1000;
+    tv.tv_usec = (timeout % 1000) * 1000;
+
+    IsReadableAsyncWorker* worker = new IsReadableAsyncWorker(fd, tv, env);
+    worker->Queue();
+
+    return worker->getPromise();
+}
+
 Napi::Object Init (Napi::Env env, Napi::Object exports) {
     exports.Set("v4l2_fourcc", Napi::Function::New(env, wrap_v4l2_fourcc));
     exports.Set("v4l2_open", Napi::Function::New(env, wrap_v4l2_open));
@@ -198,7 +381,14 @@ Napi::Object Init (Napi::Env env, Napi::Object exports) {
     exports.Set("v4l2_mmap", Napi::Function::New(env, wrap_v4l2_mmap));
     exports.Set("v4l2_munmap", Napi::Function::New(env, wrap_v4l2_munmap));
     exports.Set("v4l2_close", Napi::Function::New(env, wrap_v4l2_close));
+    exports.Set("v4l2_dup", Napi::Function::New(env, wrap_v4l2_dup));
+    exports.Set("v4l2_read", Napi::Function::New(env, wrap_v4l2_read));
+    exports.Set("v4l2_write", Napi::Function::New(env, wrap_v4l2_write));
+    exports.Set("v4l2_set_control", Napi::Function::New(env, wrap_v4l2_set_control));
+    exports.Set("v4l2_get_control", Napi::Function::New(env, wrap_v4l2_get_control));
+    exports.Set("v4l2_fd_open", Napi::Function::New(env, wrap_v4l2_fd_open));
     exports.Set("is_readable", Napi::Function::New(env, is_readable));
+    exports.Set("is_readable_async", Napi::Function::New(env, is_readable_async));
 
     return exports;
 }

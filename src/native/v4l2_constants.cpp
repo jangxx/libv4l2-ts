@@ -69,6 +69,86 @@ Napi::Object InitConstants(Napi::Env env, Napi::Object exports) {
     ioctl.Set("VIDIOC_ENCODER_CMD", Napi::Number::New(env, VIDIOC_ENCODER_CMD));
     ioctl.Set("VIDIOC_TRY_ENCODER_CMD", Napi::Number::New(env, VIDIOC_TRY_ENCODER_CMD));
 
+    Napi::Object struct_sizes = Napi::Object::New(env);
+	exports.Set("struct_sizes", struct_sizes);
+
+    struct_sizes.Set("v4l2_rect", Napi::Number::New(env, sizeof(v4l2_rect)));
+    struct_sizes.Set("v4l2_fract", Napi::Number::New(env, sizeof(v4l2_fract)));
+    struct_sizes.Set("v4l2_area", Napi::Number::New(env, sizeof(v4l2_area)));
+    struct_sizes.Set("v4l2_capability", Napi::Number::New(env, sizeof(v4l2_capability)));
+    struct_sizes.Set("v4l2_pix_format", Napi::Number::New(env, sizeof(v4l2_pix_format)));
+    struct_sizes.Set("v4l2_fmtdesc", Napi::Number::New(env, sizeof(v4l2_fmtdesc))); 
+    struct_sizes.Set("v4l2_frmsize_discrete", Napi::Number::New(env, sizeof(v4l2_frmsize_discrete)));
+    struct_sizes.Set("v4l2_frmsize_stepwise", Napi::Number::New(env, sizeof(v4l2_frmsize_stepwise)));
+    struct_sizes.Set("v4l2_frmsizeenum", Napi::Number::New(env, sizeof(v4l2_frmsizeenum)));
+    struct_sizes.Set("v4l2_frmival_stepwise", Napi::Number::New(env, sizeof(v4l2_frmival_stepwise)));
+    struct_sizes.Set("v4l2_frmivalenum", Napi::Number::New(env, sizeof(v4l2_frmivalenum)));
+    struct_sizes.Set("v4l2_timecode", Napi::Number::New(env, sizeof(v4l2_timecode)));
+    struct_sizes.Set("v4l2_jpegcompression", Napi::Number::New(env, sizeof(v4l2_jpegcompression)));
+    struct_sizes.Set("v4l2_requestbuffers", Napi::Number::New(env, sizeof(v4l2_requestbuffers)));
+    struct_sizes.Set("v4l2_plane", Napi::Number::New(env, sizeof(v4l2_plane)));
+    struct_sizes.Set("v4l2_buffer", Napi::Number::New(env, sizeof(v4l2_buffer)));
+    struct_sizes.Set("v4l2_exportbuffer", Napi::Number::New(env, sizeof(v4l2_exportbuffer)));
+    struct_sizes.Set("v4l2_framebuffer", Napi::Number::New(env, sizeof(v4l2_framebuffer)));
+    struct_sizes.Set("v4l2_clip", Napi::Number::New(env, sizeof(v4l2_clip)));
+    struct_sizes.Set("v4l2_window", Napi::Number::New(env, sizeof(v4l2_window)));
+    struct_sizes.Set("v4l2_captureparm", Napi::Number::New(env, sizeof(v4l2_captureparm)));
+    struct_sizes.Set("v4l2_outputparm", Napi::Number::New(env, sizeof(v4l2_outputparm)));
+    struct_sizes.Set("v4l2_cropcap", Napi::Number::New(env, sizeof(v4l2_cropcap)));
+    struct_sizes.Set("v4l2_crop", Napi::Number::New(env, sizeof(v4l2_crop)));
+    struct_sizes.Set("v4l2_selection", Napi::Number::New(env, sizeof(v4l2_selection)));
+    struct_sizes.Set("v4l2_standard", Napi::Number::New(env, sizeof(v4l2_standard)));
+    struct_sizes.Set("v4l2_bt_timings", Napi::Number::New(env, sizeof(v4l2_bt_timings)));
+    struct_sizes.Set("v4l2_dv_timings", Napi::Number::New(env, sizeof(v4l2_dv_timings)));
+    struct_sizes.Set("v4l2_enum_dv_timings", Napi::Number::New(env, sizeof(v4l2_enum_dv_timings)));
+    struct_sizes.Set("v4l2_bt_timings_cap", Napi::Number::New(env, sizeof(v4l2_bt_timings_cap)));
+    struct_sizes.Set("v4l2_dv_timings_cap", Napi::Number::New(env, sizeof(v4l2_dv_timings_cap)));
+    struct_sizes.Set("v4l2_input", Napi::Number::New(env, sizeof(v4l2_input)));
+    struct_sizes.Set("v4l2_output", Napi::Number::New(env, sizeof(v4l2_output)));
+    struct_sizes.Set("v4l2_control", Napi::Number::New(env, sizeof(v4l2_control)));
+    struct_sizes.Set("v4l2_ext_control", Napi::Number::New(env, sizeof(v4l2_ext_control)));
+    struct_sizes.Set("v4l2_ext_controls", Napi::Number::New(env, sizeof(v4l2_ext_controls)));
+    struct_sizes.Set("v4l2_queryctrl", Napi::Number::New(env, sizeof(v4l2_queryctrl)));
+    struct_sizes.Set("v4l2_query_ext_ctrl", Napi::Number::New(env, sizeof(v4l2_query_ext_ctrl)));
+    struct_sizes.Set("v4l2_querymenu", Napi::Number::New(env, sizeof(v4l2_querymenu)));
+    struct_sizes.Set("v4l2_tuner", Napi::Number::New(env, sizeof(v4l2_tuner)));
+    struct_sizes.Set("v4l2_modulator", Napi::Number::New(env, sizeof(v4l2_modulator)));
+    struct_sizes.Set("v4l2_frequency", Napi::Number::New(env, sizeof(v4l2_frequency)));
+    struct_sizes.Set("v4l2_frequency_band", Napi::Number::New(env, sizeof(v4l2_frequency_band)));
+    struct_sizes.Set("v4l2_hw_freq_seek", Napi::Number::New(env, sizeof(v4l2_hw_freq_seek)));
+    struct_sizes.Set("v4l2_rds_data", Napi::Number::New(env, sizeof(v4l2_rds_data)));
+    struct_sizes.Set("v4l2_audio", Napi::Number::New(env, sizeof(v4l2_audio)));
+    struct_sizes.Set("v4l2_audioout", Napi::Number::New(env, sizeof(v4l2_audioout)));
+    struct_sizes.Set("v4l2_enc_idx_entry", Napi::Number::New(env, sizeof(v4l2_enc_idx_entry)));
+    struct_sizes.Set("v4l2_enc_idx", Napi::Number::New(env, sizeof(v4l2_enc_idx)));
+    struct_sizes.Set("v4l2_encoder_cmd", Napi::Number::New(env, sizeof(v4l2_encoder_cmd)));
+    struct_sizes.Set("v4l2_decoder_cmd", Napi::Number::New(env, sizeof(v4l2_decoder_cmd)));
+    struct_sizes.Set("v4l2_vbi_format", Napi::Number::New(env, sizeof(v4l2_vbi_format)));
+    struct_sizes.Set("v4l2_sliced_vbi_format", Napi::Number::New(env, sizeof(v4l2_sliced_vbi_format)));
+    struct_sizes.Set("v4l2_sliced_vbi_cap", Napi::Number::New(env, sizeof(v4l2_sliced_vbi_cap)));
+    struct_sizes.Set("v4l2_sliced_vbi_data", Napi::Number::New(env, sizeof(v4l2_sliced_vbi_data)));
+    struct_sizes.Set("v4l2_mpeg_vbi_itv0_line", Napi::Number::New(env, sizeof(v4l2_mpeg_vbi_itv0_line)));
+    struct_sizes.Set("v4l2_mpeg_vbi_itv0", Napi::Number::New(env, sizeof(v4l2_mpeg_vbi_itv0)));
+    struct_sizes.Set("v4l2_mpeg_vbi_ITV0", Napi::Number::New(env, sizeof(v4l2_mpeg_vbi_ITV0)));
+    struct_sizes.Set("v4l2_mpeg_vbi_fmt_ivtv", Napi::Number::New(env, sizeof(v4l2_mpeg_vbi_fmt_ivtv)));
+    struct_sizes.Set("v4l2_plane_pix_format", Napi::Number::New(env, sizeof(v4l2_plane_pix_format)));
+    struct_sizes.Set("v4l2_pix_format_mplane", Napi::Number::New(env, sizeof(v4l2_pix_format_mplane)));
+    struct_sizes.Set("v4l2_sdr_format", Napi::Number::New(env, sizeof(v4l2_sdr_format)));
+    struct_sizes.Set("v4l2_meta_format", Napi::Number::New(env, sizeof(v4l2_meta_format)));
+    struct_sizes.Set("v4l2_format", Napi::Number::New(env, sizeof(v4l2_format)));
+    struct_sizes.Set("v4l2_streamparm", Napi::Number::New(env, sizeof(v4l2_streamparm)));
+    struct_sizes.Set("v4l2_event_vsync", Napi::Number::New(env, sizeof(v4l2_event_vsync)));
+    struct_sizes.Set("v4l2_event_ctrl", Napi::Number::New(env, sizeof(v4l2_event_ctrl)));
+    struct_sizes.Set("v4l2_event_frame_sync", Napi::Number::New(env, sizeof(v4l2_event_frame_sync)));
+    struct_sizes.Set("v4l2_event_src_change", Napi::Number::New(env, sizeof(v4l2_event_src_change)));
+    struct_sizes.Set("v4l2_event_motion_det", Napi::Number::New(env, sizeof(v4l2_event_motion_det)));
+    struct_sizes.Set("v4l2_event", Napi::Number::New(env, sizeof(v4l2_event)));
+    struct_sizes.Set("v4l2_event_subscription", Napi::Number::New(env, sizeof(v4l2_event_subscription)));
+    
+    struct_sizes.Set("timeval", Napi::Number::New(env, sizeof(timeval)));
+    struct_sizes.Set("timespec", Napi::Number::New(env, sizeof(timespec)));
+    
+
     return exports;
 }
 

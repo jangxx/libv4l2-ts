@@ -1,0 +1,16 @@
+/// <reference types="node" />
+/// <reference types="ref-napi" />
+export declare const v4l2_fourcc: (a: string, b: string, c: string, d: string) => number;
+export declare const v4l2_open: (path: string, flags: number) => number;
+export declare const v4l2_ioctl: (fd: number, request: number, arg: Buffer) => number;
+export declare const v4l2_mmap: (length: number, prot: number, flags: number, fd: number, offset: number) => Buffer;
+export declare const v4l2_munmap: (addr: Buffer) => null;
+export declare const v4l2_close: (fd: number) => null;
+export declare const v4l2_dup: (fd: number) => number;
+export declare const v4l2_read: (fd: number, buf: Buffer, count: number) => number;
+export declare const v4l2_write: (fd: number, buf: Buffer, count: number) => number;
+export declare const v4l2_set_control: (fd: number, cid: number, value: number) => number;
+export declare const v4l2_get_control: (fd: number, cid: number) => number;
+export declare const v4l2_fd_open: (fd: number, v4l2_flags: number) => number;
+export declare const is_readable: (fd: number, timeout: number) => boolean;
+export declare const is_readable_async: (fd: number, timeout: number) => Promise<boolean>;

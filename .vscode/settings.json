@@ -5,5 +5,8 @@
 		"${workspaceFolder}",
 		"${workspaceFolder}/node_modules/node-addon-api"
 	],
-	"C_Cpp.default.compilerPath": "/usr/bin/g++"
+	"C_Cpp.default.compilerPath": "/usr/bin/g++",
+	"files.associations": {
+		"cerrno": "cpp"
+	}
 }
