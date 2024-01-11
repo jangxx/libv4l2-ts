@@ -275,7 +275,7 @@ Napi::Value wrap_v4l2_set_control(const Napi::CallbackInfo& info) {
 Napi::Value wrap_v4l2_get_control(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() != 3) {
+    if (info.Length() != 2) {
         Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
         return env.Null();
     }
@@ -296,7 +296,7 @@ Napi::Value wrap_v4l2_get_control(const Napi::CallbackInfo& info) {
 Napi::Value wrap_v4l2_fd_open(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() != 3) {
+    if (info.Length() != 2) {
         Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
         return env.Null();
     }
