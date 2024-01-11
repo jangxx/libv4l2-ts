@@ -20,22 +20,12 @@ async function main() {
 	const fmt = new v4l2_format();
 	fmt.type = v4l2_buf_type.V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
-	fmt.fmt.pix.width = 1920;
-	fmt.fmt.pix.height = 1080;
-	fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_RGB24;
-
-	console.log(fmt.ref().toString("hex"));
-	console.log(ref.address(fmt.ref()));
+	fmt.fmt.pix.width = 1280;
+	fmt.fmt.pix.height = 720;
 
 	v4l2_ioctl(fd, ioctl.VIDIOC_S_FMT, fmt.ref());
 
-	console.log(fmt.ref().toString("hex"));
-	console.log(ref.address(fmt.ref()));
-
-	if (fmt.fmt.pix.pixelformat !== V4L2_PIX_FMT_RGB24) {
-		console.log("Libv4l didn't accept RGB24 format. Can't proceed.");
-	}
-	if ((fmt.fmt.pix.width !== 640) || (fmt.fmt.pix.height !== 480)) {
+	if ((fmt.fmt.pix.width !== 1280) || (fmt.fmt.pix.height !== 720)) {
 		console.log(`Warning: driver is sending image at ${fmt.fmt.pix.width}x${fmt.fmt.pix.height}`);
 	}
 
@@ -90,7 +80,7 @@ async function main() {
 
 		v4l2_ioctl(fd, ioctl.VIDIOC_DQBUF, buf.ref());
 
-		console.log(`${fmt.fmt.pix.width}x${fmt.fmt.pix.height} ${fmt.fmt.pix.pixelformat} ${fmt.fmt.pix.field} ${buf.bytesused} ${buf.index}`);
+		console.log(`res: ${fmt.fmt.pix.width}x${fmt.fmt.pix.height} fmt: ${fmt.fmt.pix.pixelformat} bytes: ${buf.bytesused} buffer_index: ${buf.index}`);
 
 		const outFile = fs.openSync(`./test/test_${Date.now()}_${i}.jpg`, "w");
 		fs.writeSync(outFile, buffers[buf.index], 0, buf.bytesused);
