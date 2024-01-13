@@ -3,16 +3,10 @@
   "version": "1.0.0",
   "description": "Native bindings for libv4l2",
   "main": "dist/index.js",
-  "exports": {
-    "./libv4l2": "./dist/libv4l2.js",
-    "./videodev2": "./dist/videodev2.js",
-    "./structs": "./dist/structs.js",
-    "./mman": "./dist/mman.js"
-  },
   "scripts": {
     "install": "node-gyp rebuild",
-    "build": "npx tsc",
-    "prepublishOnly": "npx tsc",
+    "build": "rm -r ./dist && npx tsc",
+    "prepublishOnly": "rm -r ./dist && npx tsc",
     "script:check-struct-sizes": "node-gyp rebuild && ts-node ./scripts/check-struct-sizes.ts",
     "script:example": "node-gyp rebuild && ts-node ./scripts/example.ts",
     "script:example-nobuild": "node-gyp rebuild && ts-node ./scripts/example.ts"
