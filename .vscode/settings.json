@@ -6,7 +6,9 @@
 		"${workspaceFolder}/node_modules/node-addon-api"
 	],
 	"C_Cpp.default.compilerPath": "/usr/bin/g++",
+	"C_Cpp.default.cppStandard": "c++20",
 	"files.associations": {
-		"cerrno": "cpp"
+		"cerrno": "cpp",
+		"cstring": "cpp"
 	}
 }
