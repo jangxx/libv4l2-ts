@@ -4,19 +4,18 @@
   "description": "Native bindings for libv4l2",
   "main": "dist/index.js",
   "exports": {
-    "./libv4l2.js": "./dist/libv4l2.js",
-    "./videodev2.js": "./dist/videodev2.js",
-    "./structs.js": "./dist/structs.js",
-    "./mman.js": "./dist/mman.js"
+    "./libv4l2": "./dist/libv4l2.js",
+    "./videodev2": "./dist/videodev2.js",
+    "./structs": "./dist/structs.js",
+    "./mman": "./dist/mman.js"
   },
   "scripts": {
     "install": "node-gyp rebuild",
     "build": "npx tsc",
     "prepublishOnly": "npx tsc",
-    "dev:run": "node-gyp rebuild && ts-node example.ts",
-    "dev:run-nobuild": "ts-node example.ts",
     "script:check-struct-sizes": "node-gyp rebuild && ts-node ./scripts/check-struct-sizes.ts",
-    "script:example": "node-gyp rebuild && ts-node ./scripts/example.ts"
+    "script:example": "node-gyp rebuild && ts-node ./scripts/example.ts",
+    "script:example-nobuild": "node-gyp rebuild && ts-node ./scripts/example.ts"
   },
   "keywords": [
     "v4l2",
