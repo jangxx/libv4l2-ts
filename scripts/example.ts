@@ -1,5 +1,5 @@
 import fs from "fs";
-import { v4l2_ioctl, v4l2_open, v4l2_mmap, is_readable, v4l2_munmap, v4l2_close, is_readable_async } from "../src/ts/libv4l2";
+import { v4l2_ioctl, v4l2_open, v4l2_mmap, is_readable, v4l2_munmap, v4l2_close, is_readable_async } from "../src/libv4l2";
 import {
 	V4L2_PIX_FMT_RGB24,
 	v4l2_buf_type,
@@ -8,8 +8,8 @@ import {
 	v4l2_format,
 	v4l2_requestbuffers,
 	ioctl,
-} from "../src/ts/videodev2";
-import { MAP_SHARED, PROT_READ, PROT_WRITE } from "../src/ts/mman";
+} from "../src/videodev2";
+import { MAP_SHARED, PROT_READ, PROT_WRITE } from "../src/mman";
 import ref from "ref-napi";
 
 // heavily based on https://www.linuxtv.org/downloads/v4l-dvb-apis-old/v4l2grab-example.html

@@ -1,0 +1,4 @@
+src/ts/
+build/
+test/
+.vscode/

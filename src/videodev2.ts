@@ -1,11 +1,11 @@
 /** copied and slightly adapted from videodev2.h */
 
-import ref, { Type } from "ref-napi";
+import ref from "ref-napi";
 import ref_struct from "ref-struct-di";
 import ref_union from "ref-union-di";
 import ref_array from "ref-array-di";
 
-const constants_native = require("../../build/Release/v4l2_constants.node");
+const constants_native = require("../build/Release/v4l2_constants.node");
 
 const StructType = ref_struct(ref);
 const UnionType = ref_union(ref);

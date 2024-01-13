@@ -144,11 +144,32 @@ Napi::Object InitConstants(Napi::Env env, Napi::Object exports) {
     struct_sizes.Set("v4l2_event_motion_det", Napi::Number::New(env, sizeof(v4l2_event_motion_det)));
     struct_sizes.Set("v4l2_event", Napi::Number::New(env, sizeof(v4l2_event)));
     struct_sizes.Set("v4l2_event_subscription", Napi::Number::New(env, sizeof(v4l2_event_subscription)));
-    
+    struct_sizes.Set("v4l2_edid", Napi::Number::New(env, sizeof(v4l2_edid)));
+    struct_sizes.Set("v4l2_ctrl_h264_sps", Napi::Number::New(env, sizeof(v4l2_ctrl_h264_sps)));
+    struct_sizes.Set("v4l2_ctrl_h264_pps", Napi::Number::New(env, sizeof(v4l2_ctrl_h264_pps)));
+    struct_sizes.Set("v4l2_ctrl_h264_scaling_matrix", Napi::Number::New(env, sizeof(v4l2_ctrl_h264_scaling_matrix)));
+    struct_sizes.Set("v4l2_h264_weight_factors", Napi::Number::New(env, sizeof(v4l2_h264_weight_factors)));
+    struct_sizes.Set("v4l2_ctrl_h264_pred_weights", Napi::Number::New(env, sizeof(v4l2_ctrl_h264_pred_weights)));
+    struct_sizes.Set("v4l2_h264_reference", Napi::Number::New(env, sizeof(v4l2_h264_reference)));
+    struct_sizes.Set("v4l2_ctrl_h264_slice_params", Napi::Number::New(env, sizeof(v4l2_ctrl_h264_slice_params)));
+    struct_sizes.Set("v4l2_h264_dpb_entry", Napi::Number::New(env, sizeof(v4l2_h264_dpb_entry)));
+    struct_sizes.Set("v4l2_ctrl_h264_decode_params", Napi::Number::New(env, sizeof(v4l2_ctrl_h264_decode_params)));
+    struct_sizes.Set("v4l2_ctrl_fwht_params", Napi::Number::New(env, sizeof(v4l2_ctrl_fwht_params)));
+    struct_sizes.Set("v4l2_vp8_segment", Napi::Number::New(env, sizeof(v4l2_vp8_segment)));
+    struct_sizes.Set("v4l2_vp8_loop_filter", Napi::Number::New(env, sizeof(v4l2_vp8_loop_filter)));
+    struct_sizes.Set("v4l2_vp8_quantization", Napi::Number::New(env, sizeof(v4l2_vp8_quantization)));
+    struct_sizes.Set("v4l2_vp8_entropy", Napi::Number::New(env, sizeof(v4l2_vp8_entropy)));
+    struct_sizes.Set("v4l2_vp8_entropy_coder_state", Napi::Number::New(env, sizeof(v4l2_vp8_entropy_coder_state)));
+    struct_sizes.Set("v4l2_ctrl_vp8_frame", Napi::Number::New(env, sizeof(v4l2_ctrl_vp8_frame)));
+    struct_sizes.Set("v4l2_ctrl_mpeg2_sequence", Napi::Number::New(env, sizeof(v4l2_ctrl_mpeg2_sequence)));
+    struct_sizes.Set("v4l2_ctrl_mpeg2_picture", Napi::Number::New(env, sizeof(v4l2_ctrl_mpeg2_picture)));
+    struct_sizes.Set("v4l2_ctrl_mpeg2_quantisation", Napi::Number::New(env, sizeof(v4l2_ctrl_mpeg2_quantisation)));
+    struct_sizes.Set("v4l2_ctrl_hdr10_cll_info", Napi::Number::New(env, sizeof(v4l2_ctrl_hdr10_cll_info)));
+    struct_sizes.Set("v4l2_ctrl_hdr10_mastering_display", Napi::Number::New(env, sizeof(v4l2_ctrl_hdr10_mastering_display)));
+
     struct_sizes.Set("timeval", Napi::Number::New(env, sizeof(timeval)));
     struct_sizes.Set("timespec", Napi::Number::New(env, sizeof(timespec)));
     
-
     return exports;
 }
 

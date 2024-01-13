@@ -1,4 +1,4 @@
-const binding = require("../../build/Release/v4l2_binding.node");
+const binding = require("../build/Release/v4l2_binding.node");
 
 export class V4l2Error extends Error {
 	constructor(
