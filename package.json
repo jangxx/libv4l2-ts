@@ -1,6 +1,6 @@
 {
   "name": "libv4l2-ts",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Native bindings for libv4l2",
   "main": "dist/index.js",
   "scripts": {

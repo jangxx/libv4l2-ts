@@ -42,12 +42,12 @@ Napi::Value wrap_v4l2_fourcc(const Napi::CallbackInfo& info) {
         return env.Null();
     }
 
-    const char* a = info[0].As<Napi::String>().Utf8Value().c_str();
-    const char* b = info[1].As<Napi::String>().Utf8Value().c_str();
-    const char* c = info[2].As<Napi::String>().Utf8Value().c_str();
-    const char* d = info[3].As<Napi::String>().Utf8Value().c_str();
+    const char a = info[0].As<Napi::String>().Utf8Value()[0];
+    const char b = info[1].As<Napi::String>().Utf8Value()[0];
+    const char c = info[2].As<Napi::String>().Utf8Value()[0];
+    const char d = info[3].As<Napi::String>().Utf8Value()[0];
 
-    uint32_t fourcc = v4l2_fourcc(a[0], b[0], c[0], d[0]);
+    uint32_t fourcc = v4l2_fourcc(a, b, c, d);
 
     return Napi::Number::New(env, fourcc);
 }
