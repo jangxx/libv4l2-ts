@@ -23,12 +23,12 @@ Either import the submodules directly:
 import { v4l2_open, v4l2_close, v4l2_ioctl } from "libv4l2-ts/dist/libv4l2"
 ```
 
-or import the top module and then access the submodules through destructuring:
+or import the top module and then access the subexports through destructuring:
 
 ```ts
-import libv4l2ts from "libv4l2-ts";
+import { libv4l2 } from "libv4l2-ts";
 
-const { v4l2_open, v4l2_close, v4l2_ioctl } = libv4l2ts.libv4l2;
+const { v4l2_open, v4l2_close, v4l2_ioctl } = libv4l2;
 ```
 
 In general, this library is designed to be used to implement V4L2 modules or functionality in pure Typescript without having to write any native code.
