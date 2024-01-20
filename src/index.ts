@@ -6,6 +6,6 @@ export * as mman from "./mman";
 
 export * as structs from "./structs";
 
-export * as v4l2_common from "./v4l2-common";
+export * as v4l2_common from "./v4l2_common";
 
-export * as v4l2_controls from "./v4l2-controls";
+export * as v4l2_controls from "./v4l2_controls";

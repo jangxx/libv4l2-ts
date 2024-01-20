@@ -1,12 +1,12 @@
 {
   "name": "libv4l2-ts",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Native bindings for libv4l2",
   "main": "dist/index.js",
   "scripts": {
     "install": "node-gyp rebuild",
-    "build": "rm -r ./dist && npx tsc",
-    "prepublishOnly": "rm -r ./dist && npx tsc",
+    "build": "rm -r ./dist && tsc",
+    "prepublishOnly": "rm -r ./dist && tsc",
     "script:check-struct-sizes": "node-gyp rebuild && ts-node ./scripts/check-struct-sizes.ts",
     "script:example": "node-gyp rebuild && ts-node ./scripts/example.ts",
     "script:example-nobuild": "ts-node ./scripts/example.ts"

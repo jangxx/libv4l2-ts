@@ -15,9 +15,30 @@ Then install the module:
 
 	npm install libv4l2-ts
 
+## Usage
+
+Either import the submodules directly:
+
+```ts
+import { v4l2_open, v4l2_close, v4l2_ioctl } from "libv4l2-ts/dist/libv4l2"
+```
+
+or import the top module and then access the submodules through destructuring:
+
+```ts
+import libv4l2ts from "libv4l2-ts";
+
+const { v4l2_open, v4l2_close, v4l2_ioctl } = libv4l2ts.libv4l2;
+```
+
+In general, this library is designed to be used to implement V4L2 modules or functionality in pure Typescript without having to write any native code.
+It does not have a lot of functionality on its own however and is mostly a thin layer around libv4l2 functions and a large number of `#define`s, enums and structs that are required for V4L2.
+
+If you want to learn how to implment your own V4L2 enabled modules or applications check out the official documentation about V4L2 on [kernel.org](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/v4l2.html), or look for a tutorial written in C and try to adapt it to Typescript with this module as a translation layer.
+
 ## What's included
 
-### `libv4l2-ts/libv4l2`
+### `libv4l2`
 
 Contains all functions that libv4l2 contains:
 
@@ -46,18 +67,31 @@ Blocks for at most `timeout` milliseconds and then returns whether or not the gi
 - `is_readable_async(fd: number, timeout: number) => Promise<boolean>`  
 Same as `is_readable`, but instead of blocking, the internal `select` call is performed on a separate thread so Node can run other code at the same time.
 
-### `libv4l2-ts/videodev2`
+If a function encounters an error, it will be thrown as a `V4l2Error`, which contains both the message as well as the numerical `errno`.
+
+### `videodev2`
 
 Contains a TypeScriptified version of _videodev2.h_, which is also included in the repo itself.
 
 This file contains all the defines (as `const`s), enums and structs (as `ref-struct`s) that V4L2 needs.
 ioctls are exported under `ioctl`.
 
-### `libv4l2-ts/structs`
+### `v4l2_controls`
 
-Contains more structs and types that are used in `videodev2`. You probably don't need to include this module.
+Contains a fully ported version of _linux/v4l2-controls.h_, following the same conventions as `videodev2`.
+These defines and structs are used for "controls", to set the brightness of a webcam for example.
 
-### `libv4l2-ts/mman`
+### `v4l2_common`
+
+Contains a fully ported version of _linux/v4l2-common.h_, following the same conventions as `videodev2`.
+You probably don't need to include this module directly.
+
+### `structs`
+
+Contains more structs and types that are used in `videodev2`.
+You probably don't need to include this module directly.
+
+### `mman`
 
 Partial port of _mman-linux.h_ from the glibc project. You need these defines if you want to do memory-mapped IO.
 
@@ -68,3 +102,5 @@ You can find a complete example in _scripts/example.ts_. If you have cloned the 
 ```bash
 npm run script:example
 ```
+
+This library is also the foundation for https://github.com/jangxx/v4l2-camera-ts, which can also be used as an example.
