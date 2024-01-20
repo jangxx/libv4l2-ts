@@ -1,7 +1,7 @@
 import { StructType } from "ref-struct-di";
 import * as videodev2 from "../src/videodev2";
-import * as v4l2_common from "../src/v4l2-common";
-import * as v4l2_controls from "../src/v4l2-controls";
+import * as v4l2_common from "../src/v4l2_common";
+import * as v4l2_controls from "../src/v4l2_controls";
 import * as structs from "../src/structs";
 const constants_native = require("../build/Release/v4l2_constants.node");
 
