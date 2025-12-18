@@ -1,12 +1,13 @@
 {
   "name": "libv4l2-ts",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Native bindings for libv4l2",
   "main": "dist/index.js",
   "scripts": {
     "install": "node-gyp rebuild",
     "build": "rm -r ./dist && tsc",
     "prepublishOnly": "rm -r ./dist && tsc",
+    "format": "prettier --write src/ scripts/",
     "script:check-struct-sizes": "node-gyp rebuild && ts-node ./scripts/check-struct-sizes.ts",
     "script:example": "node-gyp rebuild && ts-node ./scripts/example.ts",
     "script:example-nobuild": "ts-node ./scripts/example.ts"
@@ -21,6 +22,7 @@
   "author": "jangxx <jangxx@pm.me>",
   "license": "MIT",
   "dependencies": {
+    "long": "^5.3.2",
     "node-addon-api": "^7.0.0",
     "ref-array-di": "^1.2.2",
     "ref-napi": "^3.0.3",
@@ -35,10 +37,12 @@
     "url": "git+https://github.com/jangxx/node-v4l2-bindings.git"
   },
   "devDependencies": {
+    "@types/node": "^20.19.27",
     "@types/ref-array-di": "^1.2.8",
     "@types/ref-napi": "^3.0.12",
     "@types/ref-struct-di": "^1.1.12",
     "@types/ref-union-di": "^1.0.9",
+    "prettier": "^3.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

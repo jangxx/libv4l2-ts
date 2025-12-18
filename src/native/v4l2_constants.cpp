@@ -68,6 +68,26 @@ Napi::Object InitConstants(Napi::Env env, Napi::Object exports) {
     ioctl.Set("VIDIOC_G_ENC_INDEX", Napi::Number::New(env, VIDIOC_G_ENC_INDEX));
     ioctl.Set("VIDIOC_ENCODER_CMD", Napi::Number::New(env, VIDIOC_ENCODER_CMD));
     ioctl.Set("VIDIOC_TRY_ENCODER_CMD", Napi::Number::New(env, VIDIOC_TRY_ENCODER_CMD));
+    ioctl.Set("VIDIOC_DBG_S_REGISTER", Napi::Number::New(env, VIDIOC_DBG_S_REGISTER));
+    ioctl.Set("VIDIOC_DBG_G_REGISTER", Napi::Number::New(env, VIDIOC_DBG_G_REGISTER));
+    ioctl.Set("VIDIOC_S_HW_FREQ_SEEK", Napi::Number::New(env, VIDIOC_S_HW_FREQ_SEEK));
+    ioctl.Set("VIDIOC_S_DV_TIMINGS", Napi::Number::New(env, VIDIOC_S_DV_TIMINGS));
+    ioctl.Set("VIDIOC_G_DV_TIMINGS", Napi::Number::New(env, VIDIOC_G_DV_TIMINGS));
+    ioctl.Set("VIDIOC_DQEVENT", Napi::Number::New(env, VIDIOC_DQEVENT));
+    ioctl.Set("VIDIOC_SUBSCRIBE_EVENT", Napi::Number::New(env, VIDIOC_SUBSCRIBE_EVENT));
+    ioctl.Set("VIDIOC_UNSUBSCRIBE_EVENT", Napi::Number::New(env, VIDIOC_UNSUBSCRIBE_EVENT));
+    ioctl.Set("VIDIOC_CREATE_BUFS", Napi::Number::New(env, VIDIOC_CREATE_BUFS));
+    ioctl.Set("VIDIOC_PREPARE_BUF", Napi::Number::New(env, VIDIOC_PREPARE_BUF));
+    ioctl.Set("VIDIOC_G_SELECTION", Napi::Number::New(env, VIDIOC_G_SELECTION));
+    ioctl.Set("VIDIOC_S_SELECTION", Napi::Number::New(env, VIDIOC_S_SELECTION));
+    ioctl.Set("VIDIOC_DECODER_CMD", Napi::Number::New(env, VIDIOC_DECODER_CMD));
+    ioctl.Set("VIDIOC_TRY_DECODER_CMD", Napi::Number::New(env, VIDIOC_TRY_DECODER_CMD));
+    ioctl.Set("VIDIOC_ENUM_DV_TIMINGS", Napi::Number::New(env, VIDIOC_ENUM_DV_TIMINGS));
+    ioctl.Set("VIDIOC_QUERY_DV_TIMINGS", Napi::Number::New(env, VIDIOC_QUERY_DV_TIMINGS));
+    ioctl.Set("VIDIOC_DV_TIMINGS_CAP", Napi::Number::New(env, VIDIOC_DV_TIMINGS_CAP));
+    ioctl.Set("VIDIOC_ENUM_FREQ_BANDS", Napi::Number::New(env, VIDIOC_ENUM_FREQ_BANDS));
+    ioctl.Set("VIDIOC_DBG_G_CHIP_INFO", Napi::Number::New(env, VIDIOC_DBG_G_CHIP_INFO));
+    ioctl.Set("VIDIOC_QUERY_EXT_CTRL", Napi::Number::New(env, VIDIOC_QUERY_EXT_CTRL));
 
     Napi::Object struct_sizes = Napi::Object::New(env);
 	exports.Set("struct_sizes", struct_sizes);

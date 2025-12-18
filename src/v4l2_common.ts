@@ -31,9 +31,9 @@ export const V4L2_SEL_TGT_COMPOSE_BOUNDS = 0x0102;
 export const V4L2_SEL_TGT_COMPOSE_PADDED = 0x0103;
 
 /* Selection flags */
-export const V4L2_SEL_FLAG_GE = (1 << 0);
-export const V4L2_SEL_FLAG_LE = (1 << 1);
-export const V4L2_SEL_FLAG_KEEP_CONFIG = (1 << 2);
+export const V4L2_SEL_FLAG_GE = 1 << 0;
+export const V4L2_SEL_FLAG_LE = 1 << 1;
+export const V4L2_SEL_FLAG_KEEP_CONFIG = 1 << 2;
 
 export const v4l2_edid = StructType({
 	pad: ref.types.uint32,

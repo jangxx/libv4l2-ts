@@ -23,7 +23,9 @@ for (const struct_name in struct_sizes) {
 	}
 
 	if (struct.size !== struct_sizes[struct_name]) {
-		console.log(`Error: ${struct_name} doesn't match! (${struct.size} != ${struct_sizes[struct_name]})`);
+		console.log(
+			`Error: ${struct_name} doesn't match! (${struct.size} != ${struct_sizes[struct_name]})`,
+		);
 	} else {
 		console.log(`Ok: ${struct_name} matches (${struct.size} == ${struct_sizes[struct_name]})`);
 	}

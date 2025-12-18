@@ -66,6 +66,8 @@ It also includes a few convenience functions:
 Blocks for at most `timeout` milliseconds and then returns whether or not the given file descriptor is readable.
 - `is_readable_async(fd: number, timeout: number) => Promise<boolean>`  
 Same as `is_readable`, but instead of blocking, the internal `select` call is performed on a separate thread so Node can run other code at the same time.
+- `disable_errors(fn: (...args) => number): (...args) => number`  
+This function can be used to create a version of the v4l2 functions that always returns a number, even if it's an error. This can be useful when calling a function in a loop until it returns something other than `0` for example.
 
 If a function encounters an error, it will be thrown as a `V4l2Error`, which contains both the message as well as the numerical `errno`.
 

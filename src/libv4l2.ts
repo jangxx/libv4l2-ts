@@ -36,7 +36,13 @@ export function v4l2_ioctl(fd: number, request: number, arg: Buffer): number {
 	return result.value;
 }
 
-export function v4l2_mmap(length: number, prot: number, flags: number, fd: number, offset: number): Buffer {
+export function v4l2_mmap(
+	length: number,
+	prot: number,
+	flags: number,
+	fd: number,
+	offset: number,
+): Buffer {
 	const result: BindingReturnType = binding.v4l2_mmap(length, prot, flags, fd, offset);
 
 	if (result.error !== null) {
@@ -54,7 +60,6 @@ export function v4l2_munmap(addr: Buffer): null {
 	}
 
 	return result.value;
-
 }
 
 export function v4l2_close(fd: number): null {
@@ -128,6 +133,31 @@ export function v4l2_fd_open(fd: number, v4l2_flags: number): number {
 }
 
 // convenience functions
-export const v4l2_fourcc = binding.v4l2_fourcc as (a: string, b: string, c: string, d: string) => number;
+export const v4l2_fourcc = binding.v4l2_fourcc as (
+	a: string,
+	b: string,
+	c: string,
+	d: string,
+) => number;
 export const is_readable = binding.is_readable as (fd: number, timeout: number) => boolean;
-export const is_readable_async = binding.is_readable_async as (fd: number, timeout: number) => Promise<boolean>;
+export const is_readable_async = binding.is_readable_async as (
+	fd: number,
+	timeout: number,
+) => Promise<boolean>;
+
+// creates a version of the v4l2 functions that always returns an errno instead of throwing an error
+export function disable_errors<T extends (...args: any[]) => number>(
+	fn: T,
+): (...args: Parameters<T>) => number {
+	return (...args: Parameters<T>): number => {
+		try {
+			return fn(...args);
+		} catch (err) {
+			if (err instanceof V4l2Error) {
+				return err.errno;
+			} else {
+				throw err;
+			}
+		}
+	};
+}
