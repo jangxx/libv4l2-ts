@@ -2335,10 +2335,10 @@ export const v4l2_event_motion_det = StructType({
 export const v4l2_event = StructType({
 	type: ref.types.uint32,
 	u: new UnionType({
-		vsync: StructType({}),
-		ctrl: StructType({}),
-		frame_sync: StructType({}),
-		src_change: StructType({}),
+		vsync: v4l2_event_vsync,
+		ctrl: v4l2_event_ctrl,
+		frame_sync: v4l2_event_frame_sync,
+		src_change: v4l2_event_src_change,
 		motion_det: v4l2_event_motion_det,
 		data: ArrayType(ref.types.uint8, 64),
 	}),
