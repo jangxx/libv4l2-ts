@@ -1,13 +1,6 @@
 import fs from "fs";
 import ref from "ref-napi";
-import {
-	v4l2_ioctl,
-	v4l2_open,
-	v4l2_mmap,
-	v4l2_munmap,
-	v4l2_close,
-	poll_async,
-} from "../src/libv4l2";
+import { v4l2_ioctl, v4l2_open, v4l2_mmap, v4l2_munmap, v4l2_close, poll } from "../src/libv4l2";
 import {
 	v4l2_buf_type,
 	v4l2_memory,
@@ -20,7 +13,7 @@ import { MAP_SHARED, PROT_READ, PROT_WRITE } from "../src/mman";
 
 // heavily based on https://www.linuxtv.org/downloads/v4l-dvb-apis-old/v4l2grab-example.html
 
-async function main() {
+function main() {
 	const fd = v4l2_open(
 		process.argv[2] ?? "/dev/video0",
 		fs.constants.O_RDWR | fs.constants.O_NONBLOCK,
@@ -73,10 +66,9 @@ async function main() {
 
 	const buf = v4l2_buffer();
 	for (let i = 0; i < 20; i++) {
-		let pollResult;
-		do {
-			pollResult = await poll_async(fd, 1000, { pollin: true });
-		} while (pollResult === null || !pollResult.pollin);
+		while (!poll(fd, 1000, { pollin: true })?.pollin) {
+			console.log("wait");
+		}
 
 		buf.ref().fill(0);
 		buf.type = v4l2_buf_type.V4L2_BUF_TYPE_VIDEO_CAPTURE;

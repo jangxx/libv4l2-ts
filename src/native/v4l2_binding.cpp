@@ -2,11 +2,12 @@
 #include <cerrno>
 #include <functional>
 #include <sys/mman.h>
+#include <poll.h>
+#include <libv4l2.h>
 
 #include "napi.h"
-#include <libv4l2.h>
 #include "include/videodev2.h"
-#include "is_readable_async_worker.h"
+#include "poll_async_worker.h"
 
 Napi::Value make_return_value(const Napi::Env& env, int result, std::function<Napi::Value(const Napi::Env&)> return_fn) {
     Napi::Object obj = Napi::Object::New(env);
@@ -292,56 +293,92 @@ Napi::Value wrap_v4l2_fd_open(const Napi::CallbackInfo& info) {
     return make_return_value(env, result, [result](Napi::Env _env) { return Napi::Number::New(_env, result); });
 }
 
-Napi::Value is_readable(const Napi::CallbackInfo& info) {
+Napi::Value wrap_poll(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() != 2) {
+    if (info.Length() != 3) {
         Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
         return env.Null();
     }
 
-    if (!info[0].IsNumber() || !info[1].IsNumber()) {
+    if (!info[0].IsNumber() || !info[1].IsNumber() || !info[2].IsObject()) {
         Napi::TypeError::New(env, "Wrong argument types").ThrowAsJavaScriptException();
         return env.Null();
     }
 
     int fd = info[0].As<Napi::Number>().Int32Value();
-    int64_t timeout = info[1].As<Napi::Number>().Int64Value(); // in milliseconds
+    int timeout = info[1].As<Napi::Number>().Int32Value(); // in milliseconds
 
-    timeval tv;
-    tv.tv_sec = timeout / 1000;
-    tv.tv_usec = (timeout % 1000) * 1000;
+    Napi::Object events_obj = info[2].As<Napi::Object>();
+    Napi::Value pollin_val = events_obj.Get("pollin");
+    Napi::Value pollout_val = events_obj.Get("pollout");
+    Napi::Value pollpri_val = events_obj.Get("pollpri");
+    
+    short events = 0;
 
-    fd_set fds;
-    FD_ZERO(&fds);
-    FD_SET(fd, &fds);
+    if (pollin_val.IsBoolean() && pollin_val.As<Napi::Boolean>().Value()) {
+        events |= POLLIN;
+    }
+    if (pollout_val.IsBoolean() && pollout_val.As<Napi::Boolean>().Value()) {
+        events |= POLLOUT;
+    }
+    if (pollpri_val.IsBoolean() && pollpri_val.As<Napi::Boolean>().Value()) {
+        events |= POLLPRI;
+    }
 
-    int result = select(fd + 1, &fds, nullptr, nullptr, &tv);
+    struct pollfd fds[1] = {};
+    fds[0].fd = fd;
+	fds[0].events = events;
 
-    return Napi::Boolean::New(env, result == 1);
+    int result = poll(fds, 1, timeout);
+
+    return make_return_value(env, result, [result, fds](Napi::Env _env) { 
+        if (result == 0) { // syscall timed out
+            return _env.Null();
+        } else {
+            Napi::Object obj = Napi::Object::New(_env);
+            obj.Set("pollin", Napi::Boolean::New(_env, (fds[0].revents & POLLIN) != 0));
+            obj.Set("pollout", Napi::Boolean::New(_env, (fds[0].revents & POLLOUT) != 0));
+            obj.Set("pollpri", Napi::Boolean::New(_env, (fds[0].revents & POLLPRI) != 0));
+            return (Napi::Value)obj;
+        }
+    });
 }
 
-Napi::Value is_readable_async(const Napi::CallbackInfo& info) {
+Napi::Value wrap_poll_async(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
 
-    if (info.Length() != 2) {
+    if (info.Length() != 3) {
         Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();
         return env.Null();
     }
 
-    if (!info[0].IsNumber() || !info[1].IsNumber()) {
+    if (!info[0].IsNumber() || !info[1].IsNumber() || !info[2].IsObject()) {
         Napi::TypeError::New(env, "Wrong argument types").ThrowAsJavaScriptException();
         return env.Null();
     }
 
     int fd = info[0].As<Napi::Number>().Int32Value();
-    int64_t timeout = info[1].As<Napi::Number>().Int64Value(); // in milliseconds
+    int timeout = info[1].As<Napi::Number>().Int32Value(); // in milliseconds
 
-    timeval tv;
-    tv.tv_sec = timeout / 1000;
-    tv.tv_usec = (timeout % 1000) * 1000;
+    Napi::Object events_obj = info[2].As<Napi::Object>();
+    Napi::Value pollin_val = events_obj.Get("pollin");
+    Napi::Value pollout_val = events_obj.Get("pollout");
+    Napi::Value pollpri_val = events_obj.Get("pollpri");
+    
+    short events = 0;
 
-    IsReadableAsyncWorker* worker = new IsReadableAsyncWorker(fd, tv, env);
+    if (pollin_val.IsBoolean() && pollin_val.As<Napi::Boolean>().Value()) {
+        events |= POLLIN;
+    }
+    if (pollout_val.IsBoolean() && pollout_val.As<Napi::Boolean>().Value()) {
+        events |= POLLOUT;
+    }
+    if (pollpri_val.IsBoolean() && pollpri_val.As<Napi::Boolean>().Value()) {
+        events |= POLLPRI;
+    }
+
+    PollAsyncWorker* worker = new PollAsyncWorker(fd, timeout, events, env);
     worker->Queue();
 
     return worker->getPromise();
@@ -360,8 +397,8 @@ Napi::Object Init (Napi::Env env, Napi::Object exports) {
     exports.Set("v4l2_set_control", Napi::Function::New(env, wrap_v4l2_set_control));
     exports.Set("v4l2_get_control", Napi::Function::New(env, wrap_v4l2_get_control));
     exports.Set("v4l2_fd_open", Napi::Function::New(env, wrap_v4l2_fd_open));
-    exports.Set("is_readable", Napi::Function::New(env, is_readable));
-    exports.Set("is_readable_async", Napi::Function::New(env, is_readable_async));
+    exports.Set("poll", Napi::Function::New(env, wrap_poll));
+    exports.Set("poll_async", Napi::Function::New(env, wrap_poll_async));
 
     return exports;
 }

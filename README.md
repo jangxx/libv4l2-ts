@@ -62,10 +62,14 @@ You can find documentation about these functions here: https://www.kernel.org/do
 
 It also includes a few convenience functions:
 
+- `poll(fd: number, timeout: number, events: PollEvents) => PollEventResults | null`  
+A wrapper around the `poll` syscall, which can be used to wait (i.e. block) until a specific file descriptor is readable, writable or in an exceptional state. Blocks for at most `timeout` milliseconds.
+- `poll_async(fd: number, timeout: number, events: PollEvents) => Promise<PollEventResults | null>`  
+Same as `poll`, but instead of blocking, the internal syscall is performed on a separate thread, so Node can run other code at the same time.
 - `is_readable(fd: number, timeout: number) => boolean`  
-Blocks for at most `timeout` milliseconds and then returns whether or not the given file descriptor is readable.
+_(Deprecated) Use `poll` instead._
 - `is_readable_async(fd: number, timeout: number) => Promise<boolean>`  
-Same as `is_readable`, but instead of blocking, the internal `select` call is performed on a separate thread so Node can run other code at the same time.
+_(Deprecated) Use `poll_async` instead._
 - `disable_errors(fn: (...args) => number): (...args) => number`  
 This function can be used to create a version of the v4l2 functions that always returns a number, even if it's an error. This can be useful when calling a function in a loop until it returns something other than `0` for example.
 

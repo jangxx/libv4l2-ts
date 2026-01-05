@@ -1,7 +1,7 @@
 {
 	"C_Cpp.default.includePath": [
 		"/usr/include/node",
-		"/usr/include/linux",
+		"/usr/include/x86_64-linux-gnu",
 		"${workspaceFolder}",
 		"${workspaceFolder}/node_modules/node-addon-api"
 	],

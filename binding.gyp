@@ -4,7 +4,7 @@
             "target_name": "v4l2_binding",
             "sources": [
                 "src/native/v4l2_binding.cpp",
-				"src/native/is_readable_async_worker.cpp"
+				"src/native/poll_async_worker.cpp"
             ],
             "include_dirs": [
                 "<!@(node -p \"require('node-addon-api').include\")"
