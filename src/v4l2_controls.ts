@@ -176,6 +176,37 @@ export const V4L2_CID_USER_CODA_BASE = V4L2_CID_USER_BASE + 0x10e0;
  * We reserve 128 controls for this driver.
  */
 export const V4L2_CID_USER_CCS_BASE = V4L2_CID_USER_BASE + 0x10f0;
+/*
+ * The base for Allegro driver controls.
+ * We reserve 16 controls for this driver.
+ */
+
+/* The base for the Allegro driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_ALLEGRO_BASE = V4L2_CID_USER_BASE + 0x1170;
+
+/* The base for the isl7998x driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_ISL7998X_BASE = V4L2_CID_USER_BASE + 0x1180;
+
+/* The base for DW100 driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_DW100_BASE = V4L2_CID_USER_BASE + 0x1190;
+
+/* The base for Aspeed driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_ASPEED_BASE = V4L2_CID_USER_BASE + 0x11a0;
+
+/* The base for Nuvoton NPCM driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_NPCM_BASE = V4L2_CID_USER_BASE + 0x11b0;
+
+/* The base for THine THP7312 driver controls. We reserve 32 controls for this driver. */
+export const V4L2_CID_USER_THP7312_BASE = V4L2_CID_USER_BASE + 0x11c0;
+
+/* The base for the uvc driver controls. See linux/uvcvideo.h for the list of controls. We reserve 64 controls for this driver. */
+export const V4L2_CID_USER_UVC_BASE = V4L2_CID_USER_BASE + 0x11e0;
+
+/* The base for Rockchip ISP1 driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_RKISP1_BASE = V4L2_CID_USER_BASE + 0x1220;
+
+/* The base for the Arm Mali-C55 ISP driver controls. We reserve 16 controls for this driver. */
+export const V4L2_CID_USER_MALI_C55_BASE = V4L2_CID_USER_BASE + 0x1230;
 
 /* MPEG-class control IDs */
 /* The MPEG controls are applicable to all codec controls
