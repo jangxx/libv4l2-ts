@@ -901,6 +901,7 @@ export const V4L2_FMT_FLAG_CSC_XFER_FUNC = 0x0040;
 export const V4L2_FMT_FLAG_CSC_YCBCR_ENC = 0x0080;
 export const V4L2_FMT_FLAG_CSC_HSV_ENC = V4L2_FMT_FLAG_CSC_YCBCR_ENC;
 export const V4L2_FMT_FLAG_CSC_QUANTIZATION = 0x0100;
+export const V4L2_FMT_FLAG_META_LINE_BASED = 0x0200;
 
 /* Frame Size and frame rate enumeration */
 /*
@@ -1019,8 +1020,11 @@ export const v4l2_requestbuffers = StructType({
 	type: ref.types.uint32,
 	memory: ref.types.uint32,
 	capabilities: ref.types.uint32,
-	reserved: ref.types.uint32,
+	flags: ref.types.uint8,
+	reserved: ArrayType(ref.types.uint8, 3),
 });
+
+export const V4L2_MEMORY_FLAG_NON_COHERENT = 1 << 0;
 
 /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
 export const V4L2_BUF_CAP_SUPPORTS_MMAP = 1 << 0;
@@ -1030,6 +1034,8 @@ export const V4L2_BUF_CAP_SUPPORTS_REQUESTS = 1 << 3;
 export const V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS = 1 << 4;
 export const V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF = 1 << 5;
 export const V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS = 1 << 6;
+export const V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS = 1 << 7;
+export const V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS = 1 << 8;
 
 export const v4l2_plane = StructType({
 	bytesused: ref.types.uint32,
@@ -1630,17 +1636,31 @@ export const v4l2_ext_control = StructType(
 			p_u16: ref.refType(ref.types.uint16),
 			p_u32: ref.refType(ref.types.uint32),
 			p_area: ref.refType(v4l2_area),
-			//   p_h264_sps: ref.refType(v4l2_ctrl_h264_sps),
-			//   p_h264_pps: ref.refType(v4l2_ctrl_h264_pps),
-			//   p_h264_scaling_matrix: ref.refType(v4l2_ctrl_h264_scaling_matrix),
-			//   p_h264_pred_weights: ref.refType(v4l2_ctrl_h264_pred_weights),
-			//   p_h264_slice_params: ref.refType(v4l2_ctrl_h264_slice_params),
-			//   p_h264_decode_params: ref.refType(v4l2_ctrl_h264_decode_params),
-			//   p_fwht_params: ref.refType(v4l2_ctrl_fwht_params),
-			//   p_vp8_frame: ref.refType(v4l2_ctrl_vp8_frame),
-			//   p_mpeg2_sequence: ref.refType(v4l2_ctrl_mpeg2_sequence),
-			//   p_mpeg2_picture: ref.refType(v4l2_ctrl_mpeg2_picture),
-			//   p_mpeg2_quantisation: ref.refType(v4l2_ctrl_mpeg2_quantisation),
+			p_rect: ref.refType(v4l2_rect),
+			// struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+			// struct v4l2_ctrl_h264_pps __user *p_h264_pps;
+			// struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+			// struct v4l2_ctrl_h264_pred_weights __user *p_h264_pred_weights;
+			// struct v4l2_ctrl_h264_slice_params __user *p_h264_slice_params;
+			// struct v4l2_ctrl_h264_decode_params __user *p_h264_decode_params;
+			// struct v4l2_ctrl_fwht_params __user *p_fwht_params;
+			// struct v4l2_ctrl_vp8_frame __user *p_vp8_frame;
+			// struct v4l2_ctrl_mpeg2_sequence __user *p_mpeg2_sequence;
+			// struct v4l2_ctrl_mpeg2_picture __user *p_mpeg2_picture;
+			// struct v4l2_ctrl_mpeg2_quantisation __user *p_mpeg2_quantisation;
+			// struct v4l2_ctrl_vp9_compressed_hdr __user *p_vp9_compressed_hdr_probs;
+			// struct v4l2_ctrl_vp9_frame __user *p_vp9_frame;
+			// struct v4l2_ctrl_hevc_sps __user *p_hevc_sps;
+			// struct v4l2_ctrl_hevc_pps __user *p_hevc_pps;
+			// struct v4l2_ctrl_hevc_slice_params __user *p_hevc_slice_params;
+			// struct v4l2_ctrl_hevc_scaling_matrix __user *p_hevc_scaling_matrix;
+			// struct v4l2_ctrl_hevc_decode_params __user *p_hevc_decode_params;
+			// struct v4l2_ctrl_av1_sequence __user *p_av1_sequence;
+			// struct v4l2_ctrl_av1_tile_group_entry __user *p_av1_tile_group_entry;
+			// struct v4l2_ctrl_av1_frame __user *p_av1_frame;
+			// struct v4l2_ctrl_av1_film_grain __user *p_av1_film_grain;
+			// struct v4l2_ctrl_hdr10_cll_info __user *p_hdr10_cll_info;
+			// struct v4l2_ctrl_hdr10_mastering_display __user *p_hdr10_mastering_display;
 			ptr: ref.refType(ref.types.void),
 		}),
 	},
@@ -1673,6 +1693,8 @@ export const V4L2_CTRL_MAX_DIMS = 4;
 export const V4L2_CTRL_WHICH_CUR_VAL = 0;
 export const V4L2_CTRL_WHICH_DEF_VAL = 0x0f000000;
 export const V4L2_CTRL_WHICH_REQUEST_VAL = 0x0f010000;
+export const V4L2_CTRL_WHICH_MIN_VAL = 0x0f020000;
+export const V4L2_CTRL_WHICH_MAX_VAL = 0x0f030000;
 
 export enum v4l2_ctrl_type {
 	V4L2_CTRL_TYPE_INTEGER = 1,
@@ -1691,6 +1713,7 @@ export enum v4l2_ctrl_type {
 	V4L2_CTRL_TYPE_U16 = 0x0101,
 	V4L2_CTRL_TYPE_U32 = 0x0102,
 	V4L2_CTRL_TYPE_AREA = 0x0106,
+	V4L2_CTRL_TYPE_RECT = 0x0107,
 
 	V4L2_CTRL_TYPE_HDR10_CLL_INFO = 0x0110,
 	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY = 0x0111,
@@ -1709,6 +1732,20 @@ export enum v4l2_ctrl_type {
 	V4L2_CTRL_TYPE_MPEG2_QUANTISATION = 0x0250,
 	V4L2_CTRL_TYPE_MPEG2_SEQUENCE = 0x0251,
 	V4L2_CTRL_TYPE_MPEG2_PICTURE = 0x0252,
+
+	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR = 0x0260,
+	V4L2_CTRL_TYPE_VP9_FRAME = 0x0261,
+
+	V4L2_CTRL_TYPE_HEVC_SPS = 0x0270,
+	V4L2_CTRL_TYPE_HEVC_PPS = 0x0271,
+	V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS = 0x0272,
+	V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX = 0x0273,
+	V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS = 0x0274,
+
+	V4L2_CTRL_TYPE_AV1_SEQUENCE = 0x280,
+	V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x281,
+	V4L2_CTRL_TYPE_AV1_FRAME = 0x282,
+	V4L2_CTRL_TYPE_AV1_FILM_GRAIN = 0x283,
 }
 
 /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
@@ -1767,6 +1804,8 @@ export const V4L2_CTRL_FLAG_VOLATILE = 0x0080;
 export const V4L2_CTRL_FLAG_HAS_PAYLOAD = 0x0100;
 export const V4L2_CTRL_FLAG_EXECUTE_ON_WRITE = 0x0200;
 export const V4L2_CTRL_FLAG_MODIFY_LAYOUT = 0x0400;
+export const V4L2_CTRL_FLAG_DYNAMIC_ARRAY = 0x0800;
+export const V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX = 0x1000;
 
 /*  Query flags, to be ORed with the control ID */
 export const V4L2_CTRL_FLAG_NEXT_CTRL = 0x80000000;
@@ -2218,11 +2257,20 @@ export const v4l2_sdr_format = StructType(
  * struct v4l2_meta_format - metadata format definition
  * @dataformat:		little endian four character code (fourcc)
  * @buffersize:		maximum size in bytes required for data
+ *  * @width:		number of data units of data per line (valid for line
+ *			based formats only, see format documentation)
+ * @height:		number of lines of data per buffer (valid for line based
+ *			formats only)
+ * @bytesperline:	offset between the beginnings of two adjacent lines in
+ *			bytes (valid for line based formats only)
  */
 export const v4l2_meta_format = StructType(
 	{
 		dataformat: ref.types.uint32,
 		buffersize: ref.types.uint32,
+		width: ref.types.uint32,
+		height: ref.types.uint32,
+		bytesperline: ref.types.uint32,
 	},
 	{ packed: true },
 );
@@ -2291,6 +2339,7 @@ export const v4l2_event_vsync = StructType(
 export const V4L2_EVENT_CTRL_CH_VALUE = 1 << 0;
 export const V4L2_EVENT_CTRL_CH_FLAGS = 1 << 1;
 export const V4L2_EVENT_CTRL_CH_RANGE = 1 << 2;
+export const V4L2_EVENT_CTRL_CH_DIMENSIONS = 1 << 3;
 
 export const v4l2_event_ctrl = StructType({
 	changes: ref.types.uint32,
