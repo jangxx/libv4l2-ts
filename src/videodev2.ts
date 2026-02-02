@@ -1632,9 +1632,9 @@ export const v4l2_ext_control = StructType(
 			value: ref.types.int32,
 			value64: ref.types.int64,
 			string: ref.types.CString,
-			p_u8: ref.refType(ref.types.uint8),
-			p_u16: ref.refType(ref.types.uint16),
-			p_u32: ref.refType(ref.types.uint32),
+			p_u8: ref.refType(new ArrayType(ref.types.uint8)),
+			p_u16: ref.refType(new ArrayType(ref.types.uint16)),
+			p_u32: ref.refType(new ArrayType(ref.types.uint32)),
 			p_area: ref.refType(v4l2_area),
 			p_rect: ref.refType(v4l2_rect),
 			// struct v4l2_ctrl_h264_sps __user *p_h264_sps;
